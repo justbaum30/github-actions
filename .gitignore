@@ -7,6 +7,7 @@
 # Gradle files
 .gradle/
 **/build/
+!.github/actions/build
 !gradle-wrapper.jar
 
 # Eclipse files

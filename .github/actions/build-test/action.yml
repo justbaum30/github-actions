@@ -1,0 +1,19 @@
+name: 'Build & Test'
+description: 'Run Gradle build, test, code coverage, and upload artifact results'
+runs:
+  using: composite
+  steps:
+    - name: Build
+      run: ./gradlew bootJar
+    - name: Lint & Test
+      run: ./gradlew check
+    - name: Check Code Coverage
+      run: ./gradlew jacocoTestCoverageVerification jacocoTestReport
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2.2.4
+      if: always()
+      with:
+        name: Artifacts
+        path: |
+          build/libs/**
+          build/reports/**
