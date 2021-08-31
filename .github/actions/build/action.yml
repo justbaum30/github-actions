@@ -9,5 +9,5 @@ runs:
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2.2.4
       with:
-        name: Artifacts
+        name: App Jar
         path: build/libs/**
