@@ -9,8 +9,11 @@ jobs:
   build-test:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Repo
+    - name: Checkout
       uses: actions/checkout@v2
-    - uses: ./.github/actions/setup
-    - name: Build & Test Override
-      uses: ./.github/actions/build-test
+    - name: Setup Environment
+      uses: ./.github/actions/setup
+    - name: Build
+      uses: ./.github/actions/build
+    - name: Test
+      uses: ./.github/actions/test
