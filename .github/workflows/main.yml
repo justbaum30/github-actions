@@ -1,0 +1,73 @@
+name: Push to main
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup Java
+      uses: ./.github/actions/setup-java
+    - name: Build
+      run: ./gradlew bootJar
+    - name: Upload Jar Artifacts
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: App Jar
+        path: build/libs/**
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup Java
+      uses: ./.github/actions/setup-java
+    - name: Lint & Test
+      run: ./gradlew check
+    - name: Check Code Coverage
+      run: ./gradlew jacocoTestCoverageVerification jacocoTestReport
+    - name: Upload Test Reports Artifacts
+      uses: actions/upload-artifact@v2.2.4
+      if: always()
+      with:
+        name: Test Reports
+        path: build/reports/**
+
+  staging-deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    environment: staging
+    steps:
+    - name: Download Jar
+      uses: actions/download-artifact@v2.0.10
+      with:
+        name: App Jar
+        path: artifacts/
+    - name: Dockerize App
+      run: echo "Dockerizing..."
+    - name: Deploy to Staging
+      run: echo "Deploying to staging environment..."
+    - name: Smoke Tests
+      run: echo "Run smoke tests..."
+
+  production-deploy:
+    runs-on: ubuntu-latest
+    needs: staging-deploy
+    environment: production
+    steps:
+    - name: Download Jar
+      uses: actions/download-artifact@v2.0.10
+      with:
+        name: App Jar
+        path: artifacts/
+    - name: Dockerize App
+      run: echo "Dockerizing..."
+    - name: Deploy to Production
+      run: echo "Deploying to production environment..."
+    - name: Smoke Tests
+      run: echo "Run smoke tests..."
