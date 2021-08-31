@@ -9,6 +9,7 @@ jobs:
   build-test:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Setup Environment
       uses: ./.github/actions/setup
     - name: Build
