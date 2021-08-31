@@ -36,7 +36,7 @@ class BandControllerTest {
     when(mockBandService.getBestBand()).thenReturn(rushBand);
 
     mockMvc
-        .perform(get("/api/v1/bands/bet").contentType(MediaType.APPLICATION_JSON))
+        .perform(get("/api/v1/bands/best").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(content().json(objectMapper.writeValueAsString(rushBand)));
   }
