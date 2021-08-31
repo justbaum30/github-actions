@@ -1,0 +1,33 @@
+# Java Files
+*.class
+*.jar
+*.war
+*.ear
+
+# Gradle files
+.gradle/
+**/build/
+!gradle-wrapper.jar
+
+# Eclipse files
+**/.project
+**/.classpath
+**/.settings/
+blog/bin/
+**/.tern-project
+
+# IntelliJ files
+**/*.iml
+**/.idea
+**/.gradle
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+.svn
+._*
+.Spotlight-V100
+.Trashes
