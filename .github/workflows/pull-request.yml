@@ -1,0 +1,27 @@
+name: Pull Requests to main
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup Environment
+      uses: ./.github/actions/setup
+    - name: Build
+      run: ./gradlew bootJar
+    - name: Lint & Test
+      run: ./gradlew check
+    - name: Check Code Coverage
+      run: ./gradlew jacocoTestCoverageVerification jacocoTestReport
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2.2.4
+      if: always()
+      with:
+        name: Artifacts
+        path: |
+          build/libs/**
+          build/reports/**
