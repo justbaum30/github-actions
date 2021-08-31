@@ -1,10 +1,11 @@
 name: 'Build'
 description: 'Run Gradle build and upload artifact results'
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - name: Build
       run: ./gradlew bootJar
+      shell: bash
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2.2.4
       with:
