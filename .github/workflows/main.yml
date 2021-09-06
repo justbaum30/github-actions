@@ -43,15 +43,32 @@ jobs:
     needs: test
     environment: staging
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0.2.0
+      with:
+        project_id: ${{ secrets.GCP_PROJECT }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        export_default_credentials: true
     - name: Download Jar
       uses: actions/download-artifact@v2.0.10
       with:
         name: App Jar
-        path: artifacts/
-    - name: Dockerize App
-      run: echo "Dockerizing..."
-    - name: Deploy to Staging
-      run: echo "Deploying to staging environment..."
+        path: build/libs/
+    - name: Authorize Docker
+      run: gcloud auth configure-docker
+    - name: Build and Push Container
+      run: |-
+        docker build -t gcr.io/${{ secrets.GCP_PROJECT }}/band-service:${{  github.sha }} .
+        docker push gcr.io/${{ secrets.GCP_PROJECT }}/band-service:${{  github.sha }}
+    - name: Deploy to Cloud Run
+      id: deploy
+      uses: google-github-actions/deploy-cloudrun@v0.4.0
+      with:
+        service: band-service-staging
+        image: gcr.io/${{ secrets.GCP_PROJECT }}/band-service:${{  github.sha }}
+        region: us-central1
     - name: Smoke Tests
       run: echo "Run smoke tests..."
 
