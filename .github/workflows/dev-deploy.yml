@@ -2,8 +2,6 @@ name: Dev Deploy
 on:
   push:
     branches: [ 'dev-deploy/**' ]
-  schedule:
-  - cron: '0 8 * * 1-5'
 
 jobs:
   build:
@@ -25,25 +23,27 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup GCP
-        uses: ./.github/actions/setup-gcp
-        with:
-          service-account-key: ${{ secrets.GCP_SA_KEY }}
-      - name: Download Jar
-        uses: actions/download-artifact@v2.0.10
-        with:
-          name: App Jar
-          path: build/libs/
-      - name: Build & Publish Docker Image to GCP
-        uses: ./.github/actions/dockerize
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup GCP
+      uses: ./.github/actions/setup-gcp
+      with:
+        service-account-key: ${{ secrets.GCP_SA_KEY }}
+    - name: Download Jar
+      uses: actions/download-artifact@v2.0.10
+      with:
+        name: App Jar
+        path: build/libs/
+    - name: Build & Publish Docker Image to GCP
+      uses: ./.github/actions/dockerize
 
   dev-deploy:
     runs-on: ubuntu-latest
     needs: dockerize
     environment: development
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
     - name: Deploy to Cloud Run
       uses: ./.github/actions/deploy
       with:

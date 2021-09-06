@@ -61,6 +61,8 @@ jobs:
     needs: [test, dockerize]
     environment: staging
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
     - name: Deploy to Cloud Run
       uses: ./.github/actions/deploy
       with:
@@ -73,6 +75,8 @@ jobs:
     needs: staging-deploy
     environment: production
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
     - name: Deploy to Cloud Run
       uses: ./.github/actions/deploy
       with:
