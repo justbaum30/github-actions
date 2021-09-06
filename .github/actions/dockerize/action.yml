@@ -1,0 +1,13 @@
+name: 'Dockerize'
+description: 'Build and push docker image to GCP'
+runs:
+  using: 'composite'
+  steps:
+  - name: Authorize Docker
+    shell: bash
+    run: gcloud auth configure-docker
+  - name: Build and Push Container
+    shell: bash
+    run: |-
+      docker build -t gcr.io/jbaumgartner-project1/band-service:${{  github.sha }} -t gcr.io/jbaumgartner-project1/band-service:latest .
+      docker push gcr.io/jbaumgartner-project1/band-service --all-tags

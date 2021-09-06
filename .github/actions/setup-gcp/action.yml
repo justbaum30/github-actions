@@ -1,0 +1,11 @@
+name: 'Setup GCP'
+description: 'Setup GCP credentials and environment'
+runs:
+  using: 'composite'
+  steps:
+  - name: Setup Cloud SDK
+    uses: google-github-actions/setup-gcloud@v0.2.0
+    with:
+      project_id: jbaumgartner-project1
+      service_account_key: ${{ secrets.GCP_SA_KEY }}
+      export_default_credentials: true

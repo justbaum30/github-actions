@@ -1,0 +1,20 @@
+name: 'Deploy'
+description: 'Deploy to GCP using Cloud Run service'
+inputs:
+  environment:
+    description: 'Target deploy environment'
+    required: true
+  image-tag:
+    description: 'Image tag to target in jbaumgartner-project/band-service registry'
+    required: false
+    default: ${{  github.sha }}
+runs:
+  using: 'composite'
+  steps:
+  - name: Deploy to Cloud Run
+    id: deploy
+    uses: google-github-actions/deploy-cloudrun@v0.4.0
+    with:
+      service: band-service-${{ inputs.environment }}
+      image: gcr.io/jbaumgartner-project1/band-service:${{ inputs.image-tag }}
+      region: us-central1
