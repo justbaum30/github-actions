@@ -13,6 +13,7 @@ jobs:
     - name: Deploy to Cloud Run
       uses: ./.github/actions/deploy
       with:
+        service-account-key: ${{ secrets.GCP_SA_KEY }}
         environment: development
         image-tag: latest
     - name: Smoke Tests

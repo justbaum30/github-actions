@@ -25,10 +25,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Setup GCP
-      uses: ./.github/actions/setup-gcp
-      with:
-        service-account-key: ${{ secrets.GCP_SA_KEY }}
     - name: Download Jar
       uses: actions/download-artifact@v2.0.10
       with:
@@ -36,6 +32,8 @@ jobs:
         path: build/libs/
     - name: Build & Publish Docker Image to GCP
       uses: ./.github/actions/dockerize
+      with:
+        service-account-key: ${{ secrets.GCP_SA_KEY }}
 
   dev-deploy:
     runs-on: ubuntu-latest
@@ -47,6 +45,7 @@ jobs:
     - name: Deploy to Cloud Run
       uses: ./.github/actions/deploy
       with:
+        service-account-key: ${{ secrets.GCP_SA_KEY }}
         environment: development
     - name: Smoke Tests
       run: echo "Run smoke tests..."
