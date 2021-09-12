@@ -1,16 +1,19 @@
 package com.kc.accelerator.cicd.service;
 
 import com.kc.accelerator.cicd.model.Band;
-import java.util.Arrays;
+import com.kc.accelerator.cicd.repository.BandRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BandService {
 
+  private final BandRepository bandRepository;
+
+  public BandService(BandRepository bandRepository) {
+    this.bandRepository = bandRepository;
+  }
+
   public Band getBestBand() {
-    return Band.builder()
-        .name("Rush")
-        .members(Arrays.asList("Geddy Lee", "Alex Lifeson", "Neil Peart"))
-        .build();
+    return bandRepository.findTopByOrderByRockLevelDesc();
   }
 }

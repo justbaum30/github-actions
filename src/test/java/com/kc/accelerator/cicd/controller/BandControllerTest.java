@@ -27,10 +27,12 @@ class BandControllerTest {
   @MockBean private BandService mockBandService;
 
   @Test
-  void getBestBand_ReturnsRush() throws Exception {
+  void getBestBand_ReturnsBestBand() throws Exception {
     final Band rushBand =
         Band.builder()
+            .id("2112")
             .name("Rush")
+            .rockLevel(10)
             .members(Arrays.asList("Geddy Lee", "Alex Lifeson", "Neil Peart"))
             .build();
     when(mockBandService.getBestBand()).thenReturn(rushBand);
