@@ -2,6 +2,7 @@ package com.kc.accelerator.cicd.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.kc.accelerator.cicd.exception.BandNotFoundException;
@@ -66,6 +67,12 @@ class BandServiceTest {
     when(mockBandRepository.findTopByOrderByRockLevelDesc()).thenReturn(expectedBand);
 
     assertThat(service.getBestBand()).isEqualTo(expectedBand);
+  }
+
+  @Test
+  void deleteBand_BandFound_ReturnsBand() {
+    service.deleteBand("2112");
+    verify(mockBandRepository).deleteById("2112");
   }
 
   private Band buildBand() {
