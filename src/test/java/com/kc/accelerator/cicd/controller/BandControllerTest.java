@@ -102,8 +102,8 @@ class BandControllerTest {
   @Test
   void deleteBand_Returns200() throws Exception {
     mockMvc
-            .perform(delete("/api/v1/bands/2112").contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
+        .perform(delete("/api/v1/bands/2112").contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk());
 
     verify(mockBandService).deleteBand("2112");
   }
