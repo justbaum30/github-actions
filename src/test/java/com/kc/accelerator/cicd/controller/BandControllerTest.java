@@ -1,8 +1,7 @@
 package com.kc.accelerator.cicd.controller;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -98,6 +97,15 @@ class BandControllerTest {
         .perform(get("/api/v1/bands/best").contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(content().json(objectMapper.writeValueAsString(band)));
+  }
+
+  @Test
+  void deleteBand_Returns200() throws Exception {
+    mockMvc
+            .perform(delete("/api/v1/bands/2112").contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
+
+    verify(mockBandService).deleteBand("2112");
   }
 
   private Band buildBand() {

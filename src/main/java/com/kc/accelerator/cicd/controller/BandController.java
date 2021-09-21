@@ -34,4 +34,9 @@ public class BandController {
   public Band getBestBand() {
     return bandService.getBestBand();
   }
+
+  @DeleteMapping("/api/v1/bands/{bandId}")
+  public void deleteBand(@PathVariable String bandId) {
+    bandService.deleteBand(bandId);
+  }
 }
