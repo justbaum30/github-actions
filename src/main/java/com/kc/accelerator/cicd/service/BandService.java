@@ -33,4 +33,8 @@ public class BandService {
   public Band getBestBand() {
     return bandRepository.findTopByOrderByRockLevelDesc();
   }
+
+  public void deleteBand(String bandId) {
+    bandRepository.deleteById(bandId);
+  }
 }
