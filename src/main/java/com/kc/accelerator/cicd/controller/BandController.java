@@ -30,6 +30,11 @@ public class BandController {
     return bandService.createBand(newBand);
   }
 
+  @DeleteMapping("/api/v1/bands/{bandId}")
+  public void deleteBand(@PathVariable String bandId) {
+      bandService.deleteBand(bandId);
+  }
+
   @GetMapping("/api/v1/bands/best")
   public Band getBestBand() {
     return bandService.getBestBand();
