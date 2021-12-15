@@ -32,7 +32,7 @@ public class BandController {
 
   @DeleteMapping("/api/v1/bands/{bandId}")
   public void deleteBand(@PathVariable String bandId) {
-      bandService.deleteBand(bandId);
+    bandService.deleteBand(bandId);
   }
 
   @GetMapping("/api/v1/bands/best")
