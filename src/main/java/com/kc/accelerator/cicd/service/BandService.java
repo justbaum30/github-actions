@@ -30,11 +30,6 @@ public class BandService {
     return bandRepository.save(newBand);
   }
 
-  public void deleteBand(String bandId) {
-  
-    bandRepository.deleteById(bandId);
-  }
-
   public Band getBestBand() {
     return bandRepository.findTopByOrderByRockLevelDesc();
   }
